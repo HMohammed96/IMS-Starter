@@ -5,52 +5,52 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qa.ims.persistence.dao.ItemsDAO;
-import com.qa.ims.persistence.domain.Items;
+import com.qa.ims.persistence.dao.ItemDAO;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
-public class ItemsController implements CrudController<Items> {
+public class ItemsController implements CrudController<Item> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
 	
-	private ItemsDAO itemsDAO;
+	private ItemDAO itemsDAO;
 	private Utils utils;
 	
-	public ItemsController(ItemsDAO itemsDAO, Utils utils) {
+	public ItemsController(ItemDAO itemsDAO, Utils utils) {
 		super();
 		this.itemsDAO = itemsDAO;
 		this.utils = utils;
 	}
 
 	@Override
-	public List<Items> readAll() {
-		List<Items> items = itemsDAO.readAll();
-		for (Items item : items ) {
+	public List<Item> readAll() {
+		List<Item> items = itemsDAO.readAll();
+		for (Item item : items ) {
 			LOGGER.info(item);
 		}
 		return items;
 	}
 
 	@Override
-	public Items create() {
+	public Item create() {
 		LOGGER.info("Please enter an item name");
 		String itemName = utils.getString();
 		LOGGER.info("Please enter an item price");
 		Double price = utils.getDouble();
-		Items item = itemsDAO.create(new Items(itemName, price));
+		Item item = itemsDAO.create(new Item(itemName, price));
 		LOGGER.info("Item created");
 		return item;
 	}
 
 	@Override
-	public Items update() {
+	public Item update() {
 		LOGGER.info("Please enter the item id of the item you would like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter an item name");
 		String itemName = utils.getString();
 		LOGGER.info("Please enter an item price");
 		Double price = utils.getDouble();
-		Items item = itemsDAO.create(new Items(id, itemName, price));
+		Item item = itemsDAO.create(new Item(id, itemName, price));
 		LOGGER.info("Item updated");
 		return item;
 	}
