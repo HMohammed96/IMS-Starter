@@ -6,64 +6,73 @@ public class Orders {
 	
 	private Long orderId;
 	private Date orderDate;
-	private Long customerId;
-	private Long itemId;
+	private Customer customer;
+	private Items item;
 	
-	public Orders(Long orderId, Date orderDate, Long customerId, Long itemId) {
+	public Orders(Long orderId, Date orderDate, Customer customer, Items item) {
 		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
-		this.customerId = customerId;
-		this.itemId = itemId;
-		
+		this.customer = customer;
+		this.item = item;
 	}
-	public Orders(Date orderDate, Long customerId, Long itemId) {
+
+	public Orders(Date orderDate, Customer customer, Items item) {
 		super();
 		this.orderDate = orderDate;
-		this.customerId = customerId;
-		this.itemId = itemId;
+		this.customer = customer;
+		this.item = item;
 	}
-	
-	
+
 	public Long getOrderId() {
 		return orderId;
 	}
+
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
+
 	public Date getOrderDate() {
 		return orderDate;
 	}
+
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
-	public Long getCustomerId() {
-		return customerId;
+
+	public Customer getCustomer() {
+		return customer;
 	}
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
-	public Long getItemId() {
-		return itemId;
+
+	public Items getItem() {
+		return item;
 	}
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
+
+	public void setItem(Items item) {
+		this.item = item;
 	}
+
 	@Override
 	public String toString() {
-		return "Orders [orderId=" + orderId + ", orderDate=" + orderDate + ", customerId=" + customerId + ", itemId="
-				+ itemId + "]";
+		return "Orders [orderId=" + orderId + ", orderDate=" + orderDate + ", customer=" + customer + ", item=" + item
+				+ "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
-		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((item == null) ? 0 : item.hashCode());
 		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -73,15 +82,15 @@ public class Orders {
 		if (getClass() != obj.getClass())
 			return false;
 		Orders other = (Orders) obj;
-		if (customerId == null) {
-			if (other.customerId != null)
+		if (customer == null) {
+			if (other.customer != null)
 				return false;
-		} else if (!customerId.equals(other.customerId))
+		} else if (!customer.equals(other.customer))
 			return false;
-		if (itemId == null) {
-			if (other.itemId != null)
+		if (item == null) {
+			if (other.item != null)
 				return false;
-		} else if (!itemId.equals(other.itemId))
+		} else if (!item.equals(other.item))
 			return false;
 		if (orderDate == null) {
 			if (other.orderDate != null)
@@ -94,5 +103,5 @@ public class Orders {
 		} else if (!orderId.equals(other.orderId))
 			return false;
 		return true;
-	}
+	}		
 }
