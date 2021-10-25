@@ -1,19 +1,19 @@
 package com.qa.ims.persistence.domain;
 
-public class Items {
+public class Item {
 	
 	private Long id;
 	private String itemName;
 	private Double price;
 	
 	// Constructors
-	public Items(String itemName, Double price) {
+	public Item(String itemName, Double price) {
 		super();
 		this.itemName = itemName;
 		this.price = price;
 	}
 
-	public Items(Long id, String itemName, Double price) {
+	public Item(Long id, String itemName, Double price) {
 		super();
 		this.id = id;
 		this.itemName = itemName;
@@ -68,7 +68,7 @@ public class Items {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Items other = (Items) obj;
+		Item other = (Item) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -2,14 +2,14 @@ package com.qa.ims.persistence.domain;
 
 import java.sql.Date;
 
-public class Orders {
+public class Order {
 	
 	private Long orderId;
 	private Date orderDate;
 	private Customer customer;
-	private Items item;
+	private Item item;
 	
-	public Orders(Long orderId, Date orderDate, Customer customer, Items item) {
+	public Order(Long orderId, Date orderDate, Customer customer, Item item) {
 		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
@@ -17,7 +17,7 @@ public class Orders {
 		this.item = item;
 	}
 
-	public Orders(Date orderDate, Customer customer, Items item) {
+	public Order(Date orderDate, Customer customer, Item item) {
 		super();
 		this.orderDate = orderDate;
 		this.customer = customer;
@@ -48,11 +48,11 @@ public class Orders {
 		this.customer = customer;
 	}
 
-	public Items getItem() {
+	public Item getItem() {
 		return item;
 	}
 
-	public void setItem(Items item) {
+	public void setItem(Item item) {
 		this.item = item;
 	}
 
@@ -81,7 +81,7 @@ public class Orders {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Orders other = (Orders) obj;
+		Order other = (Order) obj;
 		if (customer == null) {
 			if (other.customer != null)
 				return false;
