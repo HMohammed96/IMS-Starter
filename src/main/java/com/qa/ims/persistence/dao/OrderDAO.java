@@ -72,10 +72,10 @@ public class OrderDAO implements Dao<Order>{
 	}
 
 	@Override
-	public Order read(Long id) {
+	public Order read(Long OrderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE order_id = ?");) {
-			statement.setLong(1, id);
+			statement.setLong(1, OrderId);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
 				return modelFromResultSet(resultSet);
@@ -106,17 +106,74 @@ public class OrderDAO implements Dao<Order>{
 
 	@Override
 	public Order update(Order t) {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("UPDATE orders SET order_date = ?, fk_id = ?, fk_item_id WHERE id = ?");) {
+			statement.setLong(1, t.getOrderId());
+			statement.setDate(2, t.getOrderDate());
+			statement.setDouble(3, t.getCustomer().getId());
+			statement.setDouble(3, t.getItem().getId());
+			statement.executeUpdate();
+			return read(t.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}		
 		return null;
 	}
 
 	@Override
-	public int delete(long id) {
-		// TODO Auto-generated method stub
+	public int delete(long orderId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE order_id = ?");) {
+			statement.setLong(1, orderId);
+			return statement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return 0;
 	}
 	
+	// this is a method that will delete an item in an order
+	public Order deleteItemFromOrder (Order t) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("Delete FROM orders WHERE fk_item_id = ? and order_id = ?");) {
+			statement.setDouble(1, t.getItem().getId());
+			statement.setLong(2, t.getOrderId());
+			statement.executeUpdate();
+			return read(t.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}		
+		return null;
+	}
 	
+	// this is a method that will add an item to an order
+	public Order addItemToOrder (Order t) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("INSERT INTO orders (fk_item_id) VALUES (?) WHERE order_id = ?");) {
+			statement.setDouble(1, t.getOrderId());
+			statement.setDouble(2, t.getItem().getId());
+			statement.executeUpdate();
+			return read(t.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}		
+		return null;
+	}
 	
-
+	public Order orderCost (Order t) {
+		
+		Long orderId;
+		Double price;
+		int quantity;
+		int totalCost;
+		
+		return null;
+	}
 }
