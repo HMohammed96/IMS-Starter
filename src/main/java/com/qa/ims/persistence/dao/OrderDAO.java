@@ -24,7 +24,6 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long orderId = resultSet.getLong("order_id");
-		Date orderDate = resultSet.getDate("order_date");
 		
 		Long customerId = resultSet.getLong("id");
 		String customerFName = resultSet.getString("first_name");
@@ -36,7 +35,7 @@ public class OrderDAO implements Dao<Order>{
 		Double price = resultSet.getDouble("price");
 		Item item = new Item(itemId, itemName, price);
 		
-		return new Order(orderId, orderDate, customer, item);
+		return new Order(orderId, customer, item);
 	}
 
 	@Override
@@ -91,8 +90,8 @@ public class OrderDAO implements Dao<Order>{
 	public Order create(Order t) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders (order_date, fk_id, fk_item_id) VALUES (?, ?, ?)");) {
-			statement.setDate(1, t.getOrderDate());
+						.prepareStatement("INSERT INTO orders (order_id, fk_id, fk_item_id) VALUES (?, ?, ?)");) {
+			statement.setLong(1, t.getOrderId());
 			statement.setLong(2, t.getCustomer().getId());
 			statement.setLong(3, t.getItem().getId());
 			statement.executeUpdate();
@@ -108,11 +107,10 @@ public class OrderDAO implements Dao<Order>{
 	public Order update(Order t) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE orders SET order_date = ?, fk_id = ?, fk_item_id WHERE id = ?");) {
+						.prepareStatement("UPDATE orders SET fk_id = ?, fk_item_id = ? WHERE order_id = ?");) {
 			statement.setLong(1, t.getOrderId());
-			statement.setDate(2, t.getOrderDate());
-			statement.setDouble(3, t.getCustomer().getId());
-			statement.setDouble(3, t.getItem().getId());
+			statement.setLong(3, t.getCustomer().getId());
+			statement.setLong(3, t.getItem().getId());
 			statement.executeUpdate();
 			return read(t.getOrderId());
 		} catch (Exception e) {
@@ -139,8 +137,8 @@ public class OrderDAO implements Dao<Order>{
 	public Order deleteItemFromOrder (Order t) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("Delete FROM orders WHERE fk_item_id = ? and order_id = ?");) {
-			statement.setDouble(1, t.getItem().getId());
+						.prepareStatement("Delete FROM order_items WHERE fk_item_id = ? and order_id = ?");) {
+			statement.setLong(1, t.getItem().getId());
 			statement.setLong(2, t.getOrderId());
 			statement.executeUpdate();
 			return read(t.getOrderId());
@@ -155,9 +153,9 @@ public class OrderDAO implements Dao<Order>{
 	public Order addItemToOrder (Order t) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders (fk_item_id) VALUES (?) WHERE order_id = ?");) {
-			statement.setDouble(1, t.getOrderId());
-			statement.setDouble(2, t.getItem().getId());
+						.prepareStatement("INSERT INTO order_items (fk_item_id, fk_order_id, quantity, total_cost) VALUES (?, ?, ?, ?)");) {
+			statement.setLong(1, t.getOrderId());
+			statement.setLong(2, t.getItem().getId());
 			statement.executeUpdate();
 			return read(t.getOrderId());
 		} catch (Exception e) {
@@ -167,13 +165,18 @@ public class OrderDAO implements Dao<Order>{
 		return null;
 	}
 	
-	public Order orderCost (Order t) {
-		
-		Long orderId;
-		Double price;
-		int quantity;
-		int totalCost;
-		
-		return null;
-	}
+//	public Order orderCost (Order t) {
+//		try (Connection connection = DBUtils.getInstance().getConnection();
+//				PreparedStatement statement = connection
+//						.prepareStatement("SELECT SUM(total_cost) FROM order_items WHERE fk_order_id = ?");) {
+//			statement.setLong(1, t.getOrderId());
+//			statement.setDouble(2, t.getTotalCost());
+//			statement.executeUpdate();
+//			return read(t.getOrderId());
+//		} catch (Exception e) {
+//			LOGGER.debug(e);
+//			LOGGER.error(e.getMessage());
+//		}
+//		return null;
+//	}
 }
