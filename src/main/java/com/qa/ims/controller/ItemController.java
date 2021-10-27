@@ -9,14 +9,14 @@ import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
-public class ItemsController implements CrudController<Item> {
+public class ItemController implements CrudController<Item> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
 	
 	private ItemDAO itemsDAO;
 	private Utils utils;
 	
-	public ItemsController(ItemDAO itemsDAO, Utils utils) {
+	public ItemController(ItemDAO itemsDAO, Utils utils) {
 		super();
 		this.itemsDAO = itemsDAO;
 		this.utils = utils;

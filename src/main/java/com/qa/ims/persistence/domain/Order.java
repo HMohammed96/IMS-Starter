@@ -5,7 +5,27 @@ public class Order {
 	private Long orderId;
 	private Customer customer;
 	private Item item;
+	private int quantity;
+	private Double totalCost;
 	
+	
+	public Order(Long orderId, Customer customer, Item item, int quantity, Double totalCost) {
+		super();
+		this.orderId = orderId;
+		this.customer = customer;
+		this.item = item;
+		this.quantity = quantity;
+		this.totalCost = totalCost;
+	}
+	
+	public Order(Long orderId, Item item, int quantity, Double totalCost) {
+		super();
+		this.orderId = orderId;
+		this.item = item;
+		this.quantity = quantity;
+		this.totalCost = totalCost;
+	}
+
 	public Order(Long orderId, Customer customer, Item item) {
 		super();
 		this.orderId = orderId;
@@ -55,9 +75,26 @@ public class Order {
 		this.item = item;
 	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
+	}
+
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", customer=" + customer + ", item=" + item + "]";
+		return "Order [orderId=" + orderId + ", customer=" + customer + ", item=" + item + ", quantity=" + quantity
+				+ ", totalCost=" + totalCost + "]";
 	}
 
 	@Override
@@ -67,6 +104,8 @@ public class Order {
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((item == null) ? 0 : item.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + quantity;
+		result = prime * result + ((totalCost == null) ? 0 : totalCost.hashCode());
 		return result;
 	}
 
@@ -93,6 +132,13 @@ public class Order {
 			if (other.orderId != null)
 				return false;
 		} else if (!orderId.equals(other.orderId))
+			return false;
+		if (quantity != other.quantity)
+			return false;
+		if (totalCost == null) {
+			if (other.totalCost != null)
+				return false;
+		} else if (!totalCost.equals(other.totalCost))
 			return false;
 		return true;
 	}
