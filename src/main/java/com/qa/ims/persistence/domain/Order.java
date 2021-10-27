@@ -1,25 +1,32 @@
 package com.qa.ims.persistence.domain;
 
-import java.sql.Date;
-
 public class Order {
 	
 	private Long orderId;
-	private Date orderDate;
 	private Customer customer;
 	private Item item;
 	
-	public Order(Long orderId, Date orderDate, Customer customer, Item item) {
+	public Order(Long orderId, Customer customer, Item item) {
 		super();
 		this.orderId = orderId;
-		this.orderDate = orderDate;
 		this.customer = customer;
 		this.item = item;
 	}
 
-	public Order(Date orderDate, Customer customer, Item item) {
+	public Order(Long orderId, Item item) {
 		super();
-		this.orderDate = orderDate;
+		this.orderId = orderId;
+		this.item = item;
+	}
+
+	public Order(Long orderId, Customer customer) {
+		super();
+		this.orderId = orderId;
+		this.customer = customer;
+	}
+
+	public Order(Customer customer, Item item) {
+		super();
 		this.customer = customer;
 		this.item = item;
 	}
@@ -30,14 +37,6 @@ public class Order {
 
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
-	}
-
-	public Date getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
 	}
 
 	public Customer getCustomer() {
@@ -58,8 +57,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Orders [orderId=" + orderId + ", orderDate=" + orderDate + ", customer=" + customer + ", item=" + item
-				+ "]";
+		return "Order [orderId=" + orderId + ", customer=" + customer + ", item=" + item + "]";
 	}
 
 	@Override
@@ -68,7 +66,6 @@ public class Order {
 		int result = 1;
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((item == null) ? 0 : item.hashCode());
-		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		return result;
 	}
@@ -92,16 +89,12 @@ public class Order {
 				return false;
 		} else if (!item.equals(other.item))
 			return false;
-		if (orderDate == null) {
-			if (other.orderDate != null)
-				return false;
-		} else if (!orderDate.equals(other.orderDate))
-			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
 				return false;
 		} else if (!orderId.equals(other.orderId))
 			return false;
 		return true;
-	}		
+	}
+	
 }
