@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.dao.CustomerDAO;
+import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Item;
@@ -16,13 +18,18 @@ public class OrderController implements CrudController<Order> {
 	public static final Logger LOGGER = LogManager.getLogger();
 	
 	private OrderDAO orderDAO;
+	private CustomerDAO customerDAO;
+	private ItemDAO itemDAO;
 	private Utils utils;
 	
-	public OrderController(OrderDAO orderDAO, Utils utils) {
+	public OrderController(OrderDAO orderDAO, CustomerDAO customerDAO, ItemDAO itemDAO, Utils utils) {
 		super();
 		this.orderDAO = orderDAO;
+		this.customerDAO = customerDAO;
+		this.itemDAO = itemDAO;
 		this.utils = utils;
 	}
+	
 
 	@Override
 	public List<Order> readAll() {
@@ -41,20 +48,18 @@ public class OrderController implements CrudController<Order> {
 		
 		LOGGER.info("Please enter an id");
 		Long customerId = utils.getLong();
-		String customerFName = utils.getString();
-		String customerLName = utils.getString();
-		Customer customer = new Customer(customerId, customerFName, customerLName);
+		Customer customer = this.customerDAO.read(customerId);
 		
 		LOGGER.info("Please enter an item id");
 		Long itemId = utils.getLong();
-		String itemName = utils.getString();
-		Double price = utils.getDouble();
-		Item item = new Item(itemId, itemName, price);
-		
+		Item item = this.itemDAO.read(itemId);
+
 		Order order = orderDAO.create(new Order(orderId, customer, item));
 		LOGGER.info("Order created");
 		return order;
 	}
+
+
 
 	@Override
 	public Order update() {
@@ -63,15 +68,11 @@ public class OrderController implements CrudController<Order> {
 		
 		LOGGER.info("Please enter an id");
 		Long customerId = utils.getLong();
-		String customerFName = utils.getString();
-		String customerLName = utils.getString();
-		Customer customer = new Customer(customerId, customerFName, customerLName);
+		Customer customer = this.customerDAO.read(customerId);
 		
 		LOGGER.info("Please enter an item id");
 		Long itemId = utils.getLong();
-		String itemName = utils.getString();
-		Double price = utils.getDouble();
-		Item item = new Item(itemId, itemName, price);
+		Item item = this.itemDAO.read(itemId);
 		
 		Order order = orderDAO.update(new Order(orderId, customer, item));
 		LOGGER.info("Order updated");
