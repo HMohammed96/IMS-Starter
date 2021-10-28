@@ -78,9 +78,8 @@ public class ItemDAO implements Dao<Item>{
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("INSERT INTO items (item_name, price) VALUES (?, ?)");) {
-			statement.setLong(1, t.getId());
-			statement.setString(2, t.getItemName());
-			statement.setDouble(3, t.getPrice());
+			statement.setString(1, t.getItemName());
+			statement.setDouble(2, t.getPrice());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -95,9 +94,9 @@ public class ItemDAO implements Dao<Item>{
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("UPDATE items SET item_name = ?, price = ? WHERE item_id = ?");) {
-			statement.setLong(1, t.getId());
-			statement.setString(2, t.getItemName());
-			statement.setDouble(3, t.getPrice());
+			statement.setString(1, t.getItemName());
+			statement.setDouble(2, t.getPrice());
+			statement.setLong(3, t.getId());
 			statement.executeUpdate();
 			return read(t.getId());
 		} catch (Exception e) {

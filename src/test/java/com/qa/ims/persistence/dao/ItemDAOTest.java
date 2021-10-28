@@ -14,7 +14,7 @@ import com.qa.ims.utils.DBUtils;
 
 public class ItemDAOTest {
 	
-	private final ItemDAO dao = new ItemDAO();
+	private final ItemDAO DAO = new ItemDAO();
 	
 	@Before
 	public void setup() {
@@ -24,37 +24,36 @@ public class ItemDAOTest {
 	
 	@Test
 	public void testCreate() {
-		final Item created = new Item(2l, "Air Jordan 3", 99d);
-		assertEquals(created, dao.create(created));
+		final Item created = new Item(2l, "Air Max 90", 99d);
+		assertEquals(created, DAO.create(created));
 	}
 	
 	@Test
 	public void testReadAll() {
 		List<Item> expected = new ArrayList<>();
 		expected.add(new Item(1l, "Air Jordan 1", 99d));
-		assertEquals(expected, dao.readAll());
+		assertEquals(expected, DAO.readAll());
 	}
 	
 	@Test
 	public void testReadLatest() {
-		assertEquals(new Item(1l, "Air Jordan 1", 99d), dao.readLatest());
+		assertEquals(new Item(1l, "Air Jordan 1", 99d), DAO.readLatest());
 	}
 	
 	@Test
 	public void testRead() {
 		final long itemId = 1l;
-		assertEquals(new Item(itemId, "Air Jordan 1", 99d), dao.read(itemId));
+		assertEquals(new Item(1l, "Air Jordan 1", 99d), DAO.read(itemId));
 	}
 	
 	@Test
 	public void testUpdate() {
-		final Item updated =  new Item(1l, "Air Jordan 1", 99d);
-		assertEquals(updated, dao.update(updated));
+		final Item updated =  new Item(1l, "Air Jordan 3", 109d);
+		assertEquals(updated, DAO.update(updated));
 	}
 	
 	@Test
 	public void testDelete() {
-		assertEquals(1, dao.delete(1));
+		assertEquals(1, DAO.delete(1));
 	}
-
 }

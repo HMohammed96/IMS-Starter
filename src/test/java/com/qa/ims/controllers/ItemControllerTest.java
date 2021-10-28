@@ -61,11 +61,11 @@ public class ItemControllerTest {
 	
 	@Test
 	public void testUpdate() {
-		Item updated = new Item(1l, "Air Jordan 3", 99d);
+		Item updated = new Item(1l, "Air Jordan 3", 109d);
 		
 		Mockito.when(this.utils.getLong()).thenReturn(1l);
 		Mockito.when(this.utils.getString()).thenReturn(updated.getItemName());
-		Mockito.when(this.utils.getDouble()).thenReturn(99d);
+		Mockito.when(this.utils.getDouble()).thenReturn(updated.getPrice());
 		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 		
 		assertEquals(updated, this.controller.update());
